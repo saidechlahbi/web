@@ -5,38 +5,42 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: sechlahb <sechlahb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/16 17:02:21 by sechlahb          #+#    #+#             */
-/*   Updated: 2025/08/17 14:44:54 by sechlahb         ###   ########.fr       */
+/*   Created: 2025/09/06 18:37:32 by kemzouri          #+#    #+#             */
+/*   Updated: 2025/09/13 01:00:21 by sechlahb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// -L/usr/include/minilibx-linux -lmlx -lX11 -lXext 
+#include "include/cub3d.h"
 
-// #include "mlx.h"
-#include "/home/sechlahb/Desktop/minilibx-linux/mlx.h"
-#include <stdio.h>
-#include <stdlib.h>
-
-typedef struct s_cub3d
+static void	parsing(char *input, t_map *game, t_list **lst)
 {
-    void *mlx;
-    void *window;
-    
-} t_cub3d;
-
-int handler(t_cub3d *cub3d)
-{
-    (void) cub3d;
-    printf("gamme closed\n");
-    exit (0);
+	check_file_name(input, game);
+	read_map(input, lst, game);
+	map_size(*lst, game);
+	allocate_and_fill_map(game, *lst);
+	validate_map(game);
+	// printf("----PARSING IS DONE----\n");
 }
 
-int main()
+int	main(int argc, char *argv[])
 {
-    t_cub3d cub3d;
-    
-    cub3d.mlx = mlx_init();
-    cub3d.window = mlx_new_window(cub3d.mlx, 800, 600, "cub3d");
-    mlx_hook(cub3d.window, 17, 0, handler, &cub3d);
-    mlx_loop(cub3d.mlx);
+	t_list	*lst;
+	t_map	*game;
+
+	lst = NULL;
+	game = malloc(sizeof(t_map));
+	if (game == NULL)
+		return (1);
+	initialize_game(game);
+	if (argc == 2)
+	{
+		parsing(argv[1], game, &lst);
+		algorithm(game);
+		gc_free(game->gc);
+		game->gc = NULL;
+		free(game);
+	}
+	else
+		return (ft_putstr_fd("Enter a valid input\n", 2), 1);
+	return (0);
 }
