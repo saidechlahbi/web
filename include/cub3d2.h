@@ -14,7 +14,8 @@
 #ifndef CUB3D2_H
 # define CUB3D2_H
 
-# include "/home/sechlahb/Desktop/minilibx-linux/mlx.h"
+#include "/mnt/c/Users/DELL/OneDrive/Bureau/42 school cersus/1337-Common-core/minilibx-linux/mlx.h"
+// # include "/home/sechlahb/Desktop/minilibx-linux/mlx.h"
 #include "cub3d.h"
 
 #define SCREEN_WIDTH 1920
@@ -29,7 +30,7 @@
 # define up_key 65362
 # define left_key 65361
 # define down_key 65364
-# define right_key 6536
+# define right_key 65363
 
 # define tile_size 32
 

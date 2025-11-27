@@ -1,7 +1,8 @@
 NAME = cub3d
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -g #remove
-FRAMEWORKS = -L/home/sechlahb/Desktop/minilibx-linux -lmlx -lX11 -lXext 
+FRAMEWORKS = -L/mnt/c/Users/DELL/OneDrive/Bureau/42\ school\ cersus/1337-Common-core/minilibx-linux  -lmlx -lX11 -lXext 
+# FRAMEWORKS = -L/home/sechlahb/Desktop/minilibx-linux -lmlx -lX11 -lXext 
 SRCS = cub3d.c parsing/check_file_name.c parsing/utils.c \
 			parsing/lst_utils.c \
 			gnl/get_next_line.c gnl/get_next_line_utils.c \
@@ -17,8 +18,10 @@ OBJS = $(SRCS:.c=.o)
 
 all: $(NAME)
 
+# $(NAME): $(OBJS)
+# 	$(CC) $(CFLAGS) -I/home/sechlahb/Desktop/minilibx-linux $(OBJS) $(FRAMEWORKS) -o $(NAME)
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) -I/home/sechlahb/Desktop/minilibx-linux $(OBJS) $(FRAMEWORKS) -o $(NAME)
+	$(CC) $(CFLAGS) -I/mnt/c/Users/DELL/OneDrive/Bureau/42\ school\ cersus/1337-Common-core/minilibx-linux $(OBJS) $(FRAMEWORKS) -o $(NAME)
 
 clean:
 	rm -f $(OBJS)
