@@ -6,7 +6,7 @@
 /*   By: sechlahb <sechlahb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 18:28:22 by sechlahb          #+#    #+#             */
-/*   Updated: 2025/09/28 13:19:41 by sechlahb         ###   ########.fr       */
+/*   Updated: 2025/11/28 00:33:46 by sechlahb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ t_game *fill_data(t_map *data)
     game->player.pos_y = data->p_y;
     return (game);
 }
+
+
 
 int handel_exit(void *data)
 {
