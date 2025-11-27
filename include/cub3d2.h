@@ -16,10 +16,10 @@
 
 // #include "/mnt/c/Users/DELL/OneDrive/Bureau/42 school cersus/1337-Common-core/minilibx-linux/mlx.h"
 # include "/home/sechlahb/Desktop/minilibx-linux/mlx.h"
-#include "cub3d.h"
+// #include "cub3d.h"
 
-#define SCREEN_WIDTH 1920
-#define SCREEN_HEIGHT 1080
+#define SCREEN_W 1920
+#define SCREEN_H 1080
 
 # define w_key 119
 # define a_key 97
@@ -33,57 +33,52 @@
 # define right_key 65363
 
 # define tile_size 32
+// # define FOV 60
 
 typedef struct s_player
 {
-    int down;
-    int up;
-    int left;
-    int right;
-    void *player_img;
-    int x;
-    int y;
-    char direction;
-    float dir_x;
-    float dir_y;
-    float plane_x;
-    float plane_y;
-}t_player;
+    double  pos_x;
+    double  pos_y;
+    double  dir_x; 
+    double  dir_y;
+    double  plane_x;
+    double  plane_y;
+}   t_player;
 
-typedef struct s_texture
-{
-    void *image;
-    char *image_data;
-    int bits_per_pixel;
-    int size_line;
-    int endian; 
-} t_texture;
 
-typedef struct s_minimap
+typedef struct s_img
 {
-    t_texture wall;
-    t_texture player;
-    t_texture floor;
-} t_minimap;
+    void    *img;
+    char    *addr;
+    int     bpp;
+    int     line_len;
+    int     endian;
+    int     width;
+    int     height;
+}   t_img;
+
+typedef struct s_maps
+{
+    char    **layout;
+    int     width;
+    int     height;
+    char    *no_texture;
+    char    *so_texture;
+    char    *we_texture;
+    char    *ea_texture;
+    int     *floor_color;
+    int     *ceil_color;
+}   t_maps;
 
 typedef struct s_game
 {
-    char **map;
-    int height;
-    int length;
-    void *mlx;
-    void *window;
-    t_texture new_image;
-    t_minimap minimap;
-    t_texture north;
-    t_texture south;
-    t_texture west;
-    t_texture east;
-    int *f;
-    int *c;
-    t_player player;
-    
+    void        *mlx;
+    void        *win;
+    t_img       screen;
+    t_maps       map;
+    t_player    player;
 }   t_game;
+
 
 /*--------------raycasting----------------*/
 // void algorithm(t_map *game);

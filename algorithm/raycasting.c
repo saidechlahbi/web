@@ -11,33 +11,3 @@
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
-
-void set_player_direction_vectors(t_game *game)
-{
-    if (game->player.direction == 'N') {
-        game->player.dir_x = 0.0;
-        game->player.dir_y = -1.0;
-        game->player.plane_x = 0.66;
-        game->player.plane_y = 0.0;
-    }
-    if (game->player.direction == 'S') {
-        game->player.dir_x = 0.0;
-        game->player.dir_y = 1.0;
-        game->player.plane_x = -0.66;
-        game->player.plane_y = 0.0;
-    }
-    if (game->player.direction == 'W') {
-        game->player.dir_x = -1.0;
-        game->player.dir_y = 0.0;
-        game->player.plane_x = 0.0;
-        game->player.plane_y = -0.66;
-    }
-    if (game->player.direction == 'E') {
-        game->player.dir_x = 1.0;
-        game->player.dir_y = 0.0;
-        game->player.plane_x = 0.0;
-        game->player.plane_y = 0.66;
-    }
-}
-
-

@@ -33,10 +33,9 @@ int	main(int argc, char *argv[])
 		return (1);
 	initialize_game(game);
 	if (argc == 2)
-	{
-		parsing(argv[1], game, &lst);
+	{	parsing(argv[1], game, &lst);
 		algorithm(game);
-		gc_free(game->gc);
+		gc_free(game->gc); 
 		game->gc = NULL;
 		free(game);
 	}
