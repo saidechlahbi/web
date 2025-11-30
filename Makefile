@@ -11,8 +11,8 @@ SRCS = cub3d.c parsing/check_file_name.c parsing/utils.c \
 			parsing/utils_II.c parsing/clean_and_exit.c \
 			parsing/read_and_storemap.c parsing/textures_parser.c \
 			parsing/colors_parser.c parsing/map_state.c \
-			algorithm/algorithm.c algorithm/tools00.c
-#algorithm/rander_map.c algorithm/tools00.c algorithm/player_move.c
+			algorithm/algorithm.c algorithm/tools00.c algorithm/rander_map.c \
+			algorithm/player_move.c
 
 
 OBJS = $(SRCS:.c=.o)
@@ -20,7 +20,7 @@ OBJS = $(SRCS:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) -I/home/sechlahb/Desktop/minilibx-linux $(OBJS) $(FRAMEWORKS) -o $(NAME)
+	$(CC) $(CFLAGS) -I/home/sechlahb/Desktop/minilibx-linux $(OBJS) $(FRAMEWORKS) -lm -o $(NAME)
 # $(NAME): $(OBJS)
 # 	$(CC) $(CFLAGS) -I/mnt/c/Users/DELL/OneDrive/Bureau/42\ school\ cersus/1337-Common-core/minilibx-linux $(OBJS) $(FRAMEWORKS) -o $(NAME)
 

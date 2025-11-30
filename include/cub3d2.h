@@ -6,20 +6,35 @@
 /*   By: sechlahb <sechlahb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 18:31:42 by sechlahb          #+#    #+#             */
-/*   Updated: 2025/09/28 14:11:47 by sechlahb         ###   ########.fr       */
+/*   Updated: 2025/11/30 21:40:53 by sechlahb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #ifndef CUB3D2_H
 # define CUB3D2_H
-
 // #include "/mnt/c/Users/DELL/OneDrive/Bureau/42 school cersus/1337-Common-core/minilibx-linux/mlx.h"
 # include "/home/sechlahb/Desktop/minilibx-linux/mlx.h"
 // #include "cub3d.h"
 
-#define SCREEN_W 1920
-#define SCREEN_H 1080
+
+
+#define RAY_FOV (60.0 * M_PI / 180.0)  // 60 degrees converted to radians
+#define NUM_RAYS 240                   // number of rays to cast across FOV
+#define MAX_RAY_DISTANCE 2000.0        // max distance a ray can travel (in pixels)
+#define RAY_STEP 1.0                   // ray marching step (in pixels)
+#define PLAYER_SIZE 6                  // player radius for drawing
+#define COLOR_BG 0x1E1E1E
+#define COLOR_WALL 0x888888
+#define COLOR_EMPTY 0x2E2E2E
+#define COLOR_RAY 0xFFFF00
+#define COLOR_PLAYER 0x00FF00
+
+#define MOVE_SPEED 4.0        // pixels per key press
+#define ROT_SPEED (5.0 * M_PI / 180.0) // 5 degrees in radians
+
+#define SCREEN_W 670
+#define SCREEN_H 670
 
 # define w_key 119
 # define a_key 97

@@ -6,117 +6,177 @@
 /*   By: sechlahb <sechlahb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 18:28:22 by sechlahb          #+#    #+#             */
-/*   Updated: 2025/10/04 16:11:52 by sechlahb         ###   ########.fr       */
+/*   Updated: 2025/11/30 18:59:08 by sechlahb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
+#include <math.h>
 
-// void put_pixel_on_buffer(t_texture *buffer, int color, int x, int y)
-// {
-//     char *pixel = buffer->image_data +  (x * buffer->size_line + y * (buffer->bits_per_pixel / 8)); // 
-//     *(int *)pixel = color;
-// }
+void put_pixel(t_img* screen, int x, int y, int color)
+{
+    char *pixel;
+    
+    if (x < 0 || x >= SCREEN_W || y < 0 || y >= SCREEN_H)
+        return;
+    pixel = screen->addr + (y * screen->line_len  + x * (screen->bpp / 8));
+    *(unsigned int *)pixel = (unsigned int)color;
+}
 
-// int get_textures_pixel(t_texture *texture, int x, int y)
-// {   
-//     char *pixel;
+void clear_screen(t_img *screen, int color)
+{
+    int x;
+    int y;
 
-//     pixel = texture->image_data +  (x * texture->size_line + y * (texture->bits_per_pixel / 8)); // 
-//     // size line equal 128 mean 32 bytes (most of time)
-//     // bit_per_pixel equal 32  mean for bytes for pixel in my project
-//     return (*(int *)pixel);
-// }
+    y = 0;
+    while (y < SCREEN_H)
+    {
+        x = 0;
+        while (x < SCREEN_W)
+        {
+            put_pixel(screen, x, y, color);
+            x++;
+        }
+        y++;
+    }
+}
 
-// static void copy_textures_to_buffer(t_game *game, t_texture *texture, int dest_x, int dest_y)
-// {
-//     int x =0;
-//     int y = 0;
-//     int color;
+void draw_rect(t_img *img, int x, int y, int w, int h, int color)
+{
+    int i, j;
 
-//     while (x < 32)
-//     {
-//         y = 0;
-//         while (y < 32)
-//         {
-//             color = get_textures_pixel(texture, x, y);
-//             put_pixel_on_buffer(&game->new_image, color, x + dest_x, y + dest_y);
-//             y++;
-//         }
-//         x++;
-//     }
-// }
+    i = 0;
+    while (i < h)
+    {
+        j = 0;
+        while (j < w)
+        {
+            put_pixel(img, x + j, y + i, color);
+            j++;
+        }
+        i++;
+    }
+}
 
-// void get_player_position(t_game *game, int *new_x, int *new_y)
-// {
-//     if (game->player.up)
-//         *new_x = -1;
-//     if (game->player.down)
-//         *new_x = 1;
-//     if (game->player.right)
-//         *new_y = 1;
-//     if (game->player.left)
-//         *new_y = -1;
+void draw_map_topdown(t_game *game)
+{
+    int row, col;
+    int px, py;
+    char c;
+    int tile = tile_size;
 
-//     game->player.up = 0;
-//     game->player.down = 0;
-//     game->player.right = 0;
-//     game->player.left = 0;
-// }
+    row = 0;
+    while (row < game->map.height)
+    {
+        col = 0;
+        while (col < game->map.width)
+        {
+            // some map rows may be shorter: guard
+            c = ' ';
+            if (row < game->map.height && col < (int)ft_strlen(game->map.layout[row]))
+                c = game->map.layout[row][col];
 
-// int rander_map(t_game *game)
-// {
+            px = col * tile;
+            py = row * tile;
+            if (c == '1')
+                draw_rect(&game->screen, px, py, tile, tile, COLOR_WALL);
+            else
+                draw_rect(&game->screen, px, py, tile, tile, COLOR_EMPTY);
+            col++;
+        }
+        row++;
+    }
+}
 
-//     int i = 0;
-//     int j = 0;
-//     float x ,y;
-//     int new_x = 0, new_y = 0;
-//     int a = 0, b = 0;
+static int is_wall_pixel(t_game *game, double x, double y)
+{
+    int map_x = (int)(x / tile_size);
+    int map_y = (int)(y / tile_size);
 
-//     x = game->player.x;
-//     y = game->player.y;
-//     if (game->player.up)
-        
-//     get_player_position(game, &new_x, &new_y);
-//     if (new_x)
-//     {
-//         x = game->player.x + (new_x * 4);
-//         a = x;
-//         if (x > (float)a)
-//             a = (x / 32 + 1) * 32;
-//         if (game->map[a / 32 + 1][(int)(y / 32)] == '1')
-//             return 0;
-//     }
-//     if (new_y)
-//     {
-//         y = y + (new_y * 4);
-//         b = y;
-//         if (y > (float)b)
-//             b = (y / 32  + 1) * 32;
-//         if (game->map[(int)(x / 32)][b / 32] == '1')
-//             return 0;
-//     }
+    if (map_y < 0 || map_y >= game->map.height || map_x < 0 || map_x >= game->map.width)
+        return (1); // out-of-bounds treated as wall for safety
 
-//     if (game->map[(int)(x / 32)][(int)(y /32)] == '1')
-//         return 0;
-//     game->player.x = x;
-//     game->player.y = y;   
-        
-//     while (game->map[i])
-//     {
-//         j = 0;
-//         while (game->map[i][j])
-//         {
-//             if (game->map[i][j] == '1')
-//                copy_textures_to_buffer(game, &game->minimap.wall, i * 32, j * 32);
-//             if (game->map[i][j] == '0')
-//                 copy_textures_to_buffer(game, &game->minimap.floor, i * 32, j * 32);              
-//             j++;
-//         }
-//         i++;
-//     }
-//     copy_textures_to_buffer(game, &game->minimap.player, x , y);   
-//     mlx_put_image_to_window(game->mlx, game->window, game->new_image.image, 0, 0);
-//     return (0);
-// }
+    if (map_y < (int)ft_strlen(game->map.layout[map_y]) && game->map.layout[map_y][map_x] == '1')
+        return (1);
 
+    return (0);
+}
+
+void cast_and_draw_rays(t_game *game)
+{
+    int i;
+    double half_fov = RAY_FOV / 2.0;
+    double base_angle = atan2(game->player.dir_y, game->player.dir_x);
+    double angle_step = RAY_FOV / (double)NUM_RAYS;
+    double angle;
+    double rx, ry;
+    double dist;
+    int steps;
+    // int sx, sy;
+
+    i = 0;
+    while (i < NUM_RAYS)
+    {
+        angle = base_angle - half_fov + i * angle_step;
+        // normalize angle optional
+        rx = game->player.pos_x;
+        ry = game->player.pos_y;
+        dist = 0.0;
+        steps = 0;
+        while (dist < MAX_RAY_DISTANCE)
+        {
+            rx += cos(angle) * RAY_STEP;
+            ry += sin(angle) * RAY_STEP;
+            dist += RAY_STEP;
+            steps++;
+
+            if (is_wall_pixel(game, rx, ry))
+            {
+                // draw the hit pixel as bright (small dot)
+                put_pixel(&game->screen, (int)rx, (int)ry, 0xFF4400);
+                break;
+            }
+            // optionally draw the ray path (thin)
+            put_pixel(&game->screen, (int)rx, (int)ry, COLOR_RAY);
+        }
+        i++;
+    }
+}
+
+void draw_player(t_game *game)
+{
+    int x = (int)game->player.pos_x;
+    int y = (int)game->player.pos_y;
+    int s = PLAYER_SIZE;
+    int i, j;
+
+    i = -s;
+    while (i <= s)
+    {
+        j = -s;
+        while (j <= s)
+        {
+            put_pixel(&game->screen, x + j, y + i, COLOR_PLAYER);
+            j++;
+        }
+        i++;
+    }
+}
+
+int rander_map(t_game *game)
+{
+    // clear screen
+    clear_screen(&game->screen, COLOR_BG);
+
+    // 2) Draw map top-down
+    draw_map_topdown(game);
+
+    // 3) Cast and draw rays from player
+    cast_and_draw_rays(game);
+    
+    // 4) Draw player
+    draw_player(game);
+
+    mlx_put_image_to_window(game->mlx, game->win, game->screen.img, 0, 0);
+    return 0;
+}

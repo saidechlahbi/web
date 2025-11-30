@@ -6,7 +6,7 @@
 /*   By: sechlahb <sechlahb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 18:38:06 by kemzouri          #+#    #+#             */
-/*   Updated: 2025/09/21 22:26:43 by sechlahb         ###   ########.fr       */
+/*   Updated: 2025/11/30 18:58:00 by sechlahb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include "cub3d2.h"
+#include <math.h>
+
 
 typedef struct s_gc
 {
